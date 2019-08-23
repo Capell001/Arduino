@@ -1,7 +1,7 @@
-#include "Led.cpp"
+#include "Led.h"
 
-Led firstLed(13);
-Led secondLed(12);
+LED firstLed(13);
+LED secondLed(12);
 
 void setup() {
   // put your setup code here, to run once:
