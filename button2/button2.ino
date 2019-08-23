@@ -23,9 +23,11 @@ void loop() {
       switch (stateChangeCount % 4) {
         case 0:
           redLed.off();
+          switchCount=0;
           break;
         case 2:
           redLed.on();
+          switchCount=1;
           break;
       }
     }
