@@ -1,13 +1,16 @@
+#include "Led.h"
 #define BtnPin 2
 
 boolean btnState;
 unsigned int switchCount = 0;
 unsigned int stateChangeCount = 0;
+LED redLed(13);
 
 void setup() {
   Serial.begin(115200);
   pinMode(BtnPin, INPUT_PULLUP);
   btnState = digitalRead(BtnPin);
+  redLed.off();
 }
 
 void loop() {
@@ -17,9 +20,12 @@ void loop() {
     if (nowState == digitalRead(BtnPin)) {
       btnState = nowState;
       stateChangeCount++;
-      switch (stateChangeCount % 2) {
+      switch (stateChangeCount % 4) {
         case 0:
-          switchCount++;
+          redLed.off();
+          break;
+        case 2:
+          redLed.on();
           break;
       }
     }
