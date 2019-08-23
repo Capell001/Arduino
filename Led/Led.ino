@@ -1,25 +1,4 @@
-class Led{
-  private:
-    byte _pinNum;
-    
-  public:
-    Led(byte pin){
-      _pinNum = pin;
-      pinMode(_pinNum,OUTPUT);
-     }
-
-     byte getPinNum(){
-        return _pinNum;
-     }
-
-     void on(){
-      digitalWrite(_pinNum,HIGH);
-     }
-
-     void off(){
-      digitalWrite(_pinNum,LOW);
-     }
-};
+#include "Led.cpp"
 
 Led firstLed(13);
 Led secondLed(12);
