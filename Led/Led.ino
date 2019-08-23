@@ -1,16 +1,22 @@
 class Led{
+  private:
+    byte _pinNum;
+    
   public:
-   byte pinNum;
+    Led(byte pin){
+      _pinNum = pin;
+     }
 };
 
-Led firstLed;
-Led secondLed;
+Led firstLed(13);
+Led secondLed(12);
 
 void setup() {
   // put your setup code here, to run once:
-  firstLed.pinNum = 13;
-  secondLed.pinNum = 12;
-}
+  Serial.begin(115200);
+  Serial.println( firstLed._pinNum);
+  Serial.println( secondLed._pinNum);
+  }
 
 void loop() {
   // put your main code here, to run repeatedly:
