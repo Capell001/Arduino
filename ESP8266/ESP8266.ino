@@ -20,6 +20,22 @@ void setup()
 
   //連線firebase
   Firebase.begin("iotcapel.firebaseio.com","v6vaSLzCienhRXC88xIrTaJgaCGF4fAKgBiwkTi7");
+
+Firebase.reconnectWiFi(true);
+Firebase.setMaxRetry(firebaseData, 3);
+Firebase.setMaxErrorQueue(firebaseData, 30);
 }
 
-void loop() {}
+void loop() {
+if (Firebase.getBool(firebaseData, "/iot0624/LED")) {
+    if (firebaseData.dataType() == "boolean") {
+      Serial.println(firebaseData.boolData());
+    }
+
+  } else {
+    Serial.println(firebaseData.errorReason());
+  }
+
+  delay(500);
+  
+}
