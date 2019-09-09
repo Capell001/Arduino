@@ -1,7 +1,11 @@
+#include "FirebaseESP8266.h"
+#include <ESP8266WiFi.h>
+
 #define dataPin D6
 #define latchPin D7
 #define clockPin D8
 
+FirebaseData firebaseData;
 byte index1 = 0;
 const byte LEDs[10] = {
   B01111110, //0
@@ -20,16 +24,46 @@ void setup() {
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
+
+  //連線WIFI
+  Serial.begin(115200);
+  Serial.println();
+  WiFi.begin("robert_hsu", "1234567890");
+  Serial.print("Connecting");
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println();
+  Serial.print("Connected, IP address: ");
+  Serial.println(WiFi.localIP());
+
+   //連線firebase
+  Firebase.begin("iotcapel.firebaseio.com","v6vaSLzCienhRXC88xIrTaJgaCGF4fAKgBiwkTi7");
+
+ 
+  Firebase.reconnectWiFi(true);
+  Firebase.setMaxRetry(firebaseData, 3);
+  Firebase.setMaxErrorQueue(firebaseData, 30);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  digitalWrite(latchPin, LOW);
-  shiftOut(dataPin, clockPin,LSBFIRST,LEDs[index1]);
-  digitalWrite(latchPin, HIGH);
-  delay(1000);
-  index1 ++;
-  if (index1 == 10){
-    index1 = 0;
+
+   if (Firebase.getInt(firebaseData, "/iot0624/digit")) {
+    if (firebaseData.dataType() == "int") {
+      int digitalNum = firebaseData.intData();
+      Serial.println(digitalNum);
+    digitalWrite(latchPin, LOW);
+    shiftOut(dataPin, clockPin,LSBFIRST,LEDs[digitalNum]);
+    digitalWrite(latchPin, HIGH);
+    }
+
+  } else {
+    Serial.println(firebaseData.errorReason());
   }
+  
+  delay(500);
+  
 }
