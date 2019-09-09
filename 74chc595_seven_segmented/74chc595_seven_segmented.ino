@@ -1,8 +1,8 @@
-#define dataPin 2
-#define latchPin 3
-#define clockPin 4
+#define dataPin D6
+#define latchPin D7
+#define clockPin D8
 
-byte index = 0;
+byte index1 = 0;
 const byte LEDs[10] = {
   B01111110, //0
   B00110000, //1
@@ -25,11 +25,11 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   digitalWrite(latchPin, LOW);
-  shiftOut(dataPin, clockPin,LSBFIRST,LEDs[index]);
+  shiftOut(dataPin, clockPin,LSBFIRST,LEDs[index1]);
   digitalWrite(latchPin, HIGH);
   delay(1000);
-  index ++;
-  if (index == 10){
-    index = 0;
+  index1 ++;
+  if (index1 == 10){
+    index1 = 0;
   }
 }
