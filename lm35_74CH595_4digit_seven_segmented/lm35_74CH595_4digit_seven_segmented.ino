@@ -40,12 +40,12 @@ void setup()
   pinMode(latchPin,OUTPUT);
   pinMode(clockPin,OUTPUT);
   t.every(1000, oneSecondRun);
-  t.every(5,dotZeroZeroFiveRun);
 }
 
 void loop()
 {
   t.update();
+  displayLED(tempC);
 }
 
 void oneSecondRun(){
@@ -53,9 +53,6 @@ void oneSecondRun(){
   Serial.println(tempC);
 }
 
-void dotZeroZeroFiveRun(){
-  displayLED(tempC);
-}
 
 float getTemperature(){
   float temp;
@@ -65,7 +62,12 @@ float getTemperature(){
 }
 
 void displayLED(float numbers){
-  numbers = 25.73;
+  int n1 = numbers * 100;
+  byte right1 = n1 % 10;
+  byte right2 = (n1 / 10) % 10;
+  byte right3 = (n1 / 100) % 10;
+  byte right4 = (n1 / 1000) % 10;
+  
   for(int i=0;i<=3;i++){
     byte dotNumber;
     //處理位數
@@ -76,7 +78,7 @@ void displayLED(float numbers){
         digitalWrite(pin2,LOW);
         digitalWrite(pin3,LOW);
         digitalWrite(latchPin, LOW);
-        shiftOut(dataPin, clockPin,LSBFIRST,LEDs[0]);
+        shiftOut(dataPin, clockPin,LSBFIRST,LEDs[right1]);
         digitalWrite(latchPin, HIGH);
         break;
       case 1:
@@ -85,7 +87,7 @@ void displayLED(float numbers){
         digitalWrite(pin2,LOW);
         digitalWrite(pin3,LOW);
         digitalWrite(latchPin, LOW);
-        shiftOut(dataPin, clockPin,LSBFIRST,LEDs[1]);
+        shiftOut(dataPin, clockPin,LSBFIRST,LEDs[right2]);
         digitalWrite(latchPin, HIGH);
         break;
       case 2:
@@ -94,7 +96,7 @@ void displayLED(float numbers){
         digitalWrite(pin2,HIGH);
         digitalWrite(pin3,LOW);
         digitalWrite(latchPin, LOW);
-        dotNumber = LEDs[1] & B01111111;
+        dotNumber = LEDs[right3] & B01111111;
         shiftOut(dataPin, clockPin,LSBFIRST,dotNumber);
         digitalWrite(latchPin, HIGH);
         break;
@@ -104,7 +106,7 @@ void displayLED(float numbers){
         digitalWrite(pin2,LOW);
         digitalWrite(pin3,HIGH);
         digitalWrite(latchPin, LOW);
-        shiftOut(dataPin, clockPin,LSBFIRST,LEDs[3]);
+        shiftOut(dataPin, clockPin,LSBFIRST,LEDs[right4]);
         digitalWrite(latchPin, HIGH);
         break;
     }
