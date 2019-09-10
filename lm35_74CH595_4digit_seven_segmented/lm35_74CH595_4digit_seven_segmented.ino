@@ -11,7 +11,7 @@ void setup()
 void loop()
 {
   tempC = analogRead(tempPin);           //read the value from the sensor
-  tempC = (5.0 * tempC * 100.0) / 1024.0; //convert the analog data to temperature
+   tempC = (tempC / 1024 * 3.3 / 0.01); //convert the analog data to temperature
   Serial.println(tempC);
   delay(1000);
 }
