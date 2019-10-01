@@ -10,7 +10,7 @@ void setup()
   //連線WIFI
   Serial.begin(115200);
   Serial.println();
-  WiFi.begin("robert_hsu", "1234567890");
+  WiFi.begin("My ASUS", "0918031776");
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED)
   {
